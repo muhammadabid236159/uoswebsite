@@ -60,6 +60,14 @@
           mv.removeAttribute('auto-rotate');
         }
       });
+      var btnReset = document.getElementById('btnResetCam');
+      if (btnReset) {
+        btnReset.addEventListener('click', function () {
+          mv.cameraOrbit = '0deg 83deg 98%';
+          mv.cameraTarget = '0m 0.6m 0m';
+          mv.fieldOfView = '32deg';
+        });
+      }
       mv.addEventListener('error', fallback);
       setTimeout(function () {
         if (!window.customElements || !customElements.get('model-viewer')) fallback();
