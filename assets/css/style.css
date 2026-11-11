@@ -2909,3 +2909,420 @@ a.card-soft h3,a.card-soft .h5,a.card-soft .h6{color:var(--ink)}
 .uos-btn-apply:hover {
   background: #1b4332;
 }
+
+/* ==========================================================================
+   Developers Showcase & Topbar Badge
+   ========================================================================== */
+.topbar-dev-link {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  background: rgba(250, 204, 21, 0.16);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  color: #fef08a !important;
+  padding: 3px 10px !important;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-left: 6px;
+}
+.topbar-dev-link:hover {
+  background: rgba(250, 204, 21, 0.32);
+  color: #ffffff !important;
+  border-color: #facc15;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.25);
+}
+.topbar-dev-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+  display: inline-block;
+  animation: blink 1.5s infinite;
+}
+
+/* ==========================================================================
+   Dedicated Developers Page (developers.html)
+   ========================================================================== */
+.dev-page-hero {
+  background: linear-gradient(135deg, #052E16 0%, #143828 50%, #1B4332 100%);
+  color: #ffffff;
+  padding: 2.5rem 0 2rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid rgba(250, 204, 21, 0.35);
+}
+
+.dev-page-hero::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dev-page-hero::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dev-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(250, 204, 21, 0.18);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  color: #FEF08A;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 30px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.dev-hero-title {
+  font-family: 'Cinzel', serif, Georgia;
+  font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.dev-hero-title span {
+  color: #FACC15;
+}
+
+.dev-hero-sub {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #E2EDE4;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.dev-stats-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+.dev-stat-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.4rem 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.dev-stat-val {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FACC15;
+}
+
+.dev-stat-lbl {
+  font-size: 0.68rem;
+  color: #D1DCD3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Developers Main Showcase Section - Unified Single Flex Container */
+.dev-showcase-section {
+  background: #F4F7F5;
+  padding: 3.2rem 0 4rem;
+}
+
+.dev-unified-card {
+  background: #ffffff;
+  border-radius: 26px;
+  border: 1.5px solid #E2EDE4;
+  box-shadow: 0 16px 45px rgba(20, 56, 40, 0.08);
+  overflow: hidden;
+}
+
+.dev-flex-box {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.dev-col-single {
+  flex: 1 1 50%;
+  padding: 2.6rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background 0.25s ease;
+}
+
+.dev-col-single:first-child {
+  border-right: 1.5px solid #E2EDE4;
+}
+
+.dev-col-single:hover {
+  background: #FAFCFA;
+}
+
+/* Large Picture Showcase Frame */
+.dev-photo-frame-flex {
+  position: relative;
+  width: 100%;
+  max-width: 370px;
+  height: 420px;
+  margin: 0 auto 1.6rem;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+  border: 3.5px solid #FACC15;
+  background: #052E16;
+}
+
+.dev-photo-frame-flex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.dev-col-single:hover .dev-photo-frame-flex img {
+  transform: scale(1.03);
+}
+
+.dev-photo-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(20, 56, 40, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(250, 204, 21, 0.65);
+  color: #FACC15;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.03em;
+}
+
+.dev-photo-status {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(5, 46, 22, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(52, 211, 153, 0.5);
+  color: #34D399;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dev-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 6px #34D399;
+  animation: blink 1.5s infinite;
+}
+
+@media (max-width: 991px) {
+  .dev-flex-box {
+    flex-direction: column;
+  }
+  .dev-col-single {
+    padding: 2.2rem 1.6rem;
+  }
+  .dev-col-single:first-child {
+    border-right: none;
+    border-bottom: 2px solid #E2EDE4;
+  }
+  .dev-photo-frame-flex {
+    max-width: 320px;
+    height: 380px;
+  }
+}
+
+.dev-role-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(20, 56, 40, 0.08);
+  border: 1px solid rgba(20, 56, 40, 0.18);
+  color: #143828;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.dev-name {
+  font-family: 'Cinzel', serif, Georgia;
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  color: #143828;
+  line-height: 1.18;
+  margin-bottom: 0.3rem;
+}
+
+.dev-title-sub {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1B4332;
+  margin-bottom: 0.65rem;
+}
+
+.dev-dept-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.85rem;
+  color: #4B5563;
+  margin-bottom: 1.3rem;
+  font-weight: 600;
+  background: #F8FAF9;
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #E2EDE4;
+}
+
+.dev-dept-pill svg {
+  color: #143828;
+}
+
+.dev-bio-text {
+  font-size: 0.93rem;
+  line-height: 1.72;
+  color: #374151;
+  margin-bottom: 1.25rem;
+}
+
+.dev-highlights-box {
+  background: #F8FAF9;
+  border: 1px solid #E2EDE4;
+  border-left: 4px solid #143828;
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1.4rem;
+}
+
+.dev-highlights-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #143828;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dev-highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+}
+
+@media (min-width: 576px) {
+  .dev-highlights-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dev-highlights-list li {
+  font-size: 0.85rem;
+  color: #4B5563;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dev-highlights-list li svg {
+  color: #10B981;
+  flex-shrink: 0;
+}
+
+.dev-skills-block {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.dev-skills-heading {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #6B7280;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.65rem;
+}
+
+.dev-skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.dev-skill-chip {
+  background: #EDF1EE;
+  border: 1px solid #D1DCD3;
+  color: #143828;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 7px;
+  transition: all 0.2s ease;
+}
+
+.dev-skill-chip:hover {
+  background: #143828;
+  color: #ffffff;
+  border-color: #143828;
+  transform: translateY(-2px);
+}
+
+.dev-dept-feature-band {
+  background: #ffffff;
+  border-top: 1.5px solid #E2EDE4;
+  border-bottom: 1.5px solid #E2EDE4;
+  padding: 3.5rem 0;
+}
