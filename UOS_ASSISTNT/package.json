@@ -1,0 +1,13 @@
+{
+  "name": "uos-ai-assistant",
+  "version": "1.0.0",
+  "description": "University of Swat (UOS) AI Assistant - React Frontend with Gemini API Integration",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  },
+  "keywords": ["uos", "university-of-swat", "ai-assistant", "gemini-api", "react", "rag"],
+  "author": "",
+  "license": "MIT"
+}

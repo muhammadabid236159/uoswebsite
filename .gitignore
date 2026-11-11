@@ -9,3 +9,11 @@ desktop.ini
 
 # Node / logs
 *.log
+node_modules/
+
+# AI Assistant Backend (Excluded from repository)
+UOS_ASSISTNT/backend/
+UOS_ASSISTNT/backend/*
+UOS_ASSISTNT/frontend/node_modules/
+UOS_ASSISTNT/frontend/dist/
+assets/img/logo-backup.png
