@@ -92,7 +92,7 @@
 
 .hero3d-chapter {
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: calc(var(--bs-gutter-x, 1.5rem) * .5);
   width: min(560px, 92%);
   transform: translateY(-50%);
@@ -134,9 +134,9 @@
   line-height: 1.04;
   color: #fff;
   text-shadow: 0 10px 40px rgba(0, 0, 0, .45);
-  margin-bottom: 1.1rem;
+  margin-bottom: .85rem;
 }
-.hero3d h1 { font-size: clamp(2.4rem, 5.6vw, 4.6rem); }
+.hero3d h1 { font-size: clamp(1.9rem, 4vw, 3.4rem); }
 .hero3d h1 em {
   font-style: normal;
   background: linear-gradient(100deg, #FDE68A 0%, #FACC15 45%, #F59E0B 100%);
@@ -147,11 +147,11 @@
   filter: drop-shadow(0 6px 24px rgba(250, 204, 21, .25));
 }
 .hero3d-lead {
-  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  font-size: clamp(.9rem, 1.1vw, 1rem);
   color: #D6E7DA;
   line-height: 1.65;
   max-width: 500px;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.4rem;
 }
 .hero3d-actions { display: flex; flex-wrap: wrap; gap: .85rem; align-items: center; }
 .hero3d-btn {
@@ -225,7 +225,7 @@
   }
   .hero3d-chapter {
     top: auto;
-    bottom: 96px;
+    bottom: 110px;
     left: 50%;
     right: auto;
     width: min(560px, 90%);
