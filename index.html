@@ -18,9 +18,8 @@
     <link rel="icon" href="assets/img/logo.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script type="module"
-        src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-    <script src="assets/js/gate-model.js"></script>
+    <link rel="stylesheet" href="assets/css/hero3d.css">
+    <script src="assets/js/gate-model.js" defer></script>
 </head>
 
 <body>
@@ -37,7 +36,8 @@
                     href="https://uswat.edu.pk/" target="_blank" rel="noopener" class="me-3">SUJRIS</a><a
                     href="https://uswat.edu.pk/" target="_blank" rel="noopener" class="me-3">e-Office</a><a
                     href="https://uswat.edu.pk/" target="_blank" rel="noopener" class="me-3">Campus TV</a><a
-                    href="developers.html" class="topbar-dev-link"><span class="topbar-dev-dot"></span> Developers</a></div>
+                    href="developers.html" class="topbar-dev-link"><span class="topbar-dev-dot"></span> Developers</a>
+            </div>
         </div>
     </div>
     <header class="site-header">
@@ -105,112 +105,561 @@
         </nav>
     </header>
     <main id="main">
-        <section class="hero">
-            <div class="container">
-                <div class="row align-items-center gx-lg-5 gy-4">
-                    <div class="col-lg-6"><span class="badge-open">Undergraduate Admissions Fall 2026 (Phase-II)</span>
-                        <h1>Aspiring for quality education with relevance.</h1>
-                        <p class="lead">A public-sector university in the Swat Valley with 58 undergraduate, 19 MS/MPhil
-                            and 13 doctorate programs.</p>
-                        <div class="d-flex flex-wrap gap-3"><a class="btn btn-gold" href="admissions.html">Admissions
-                                Fall 2026 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M5 12h14M13 6l6 6-6 6" />
-                                </svg></a><a class="btn btn-ghost" href="departments.html">Explore departments</a></div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="hero-stage" id="heroStage">
-                            <div class="hero-road-backdrop" aria-hidden="true">
-                                <svg class="hero-road-svg" viewBox="0 0 520 220" preserveAspectRatio="xMidYMid meet">
-                                    <defs>
-                                        <radialGradient id="roadGlow" cx="50%" cy="30%" r="65%">
-                                            <stop offset="0%" stop-color="#1E7A3E" stop-opacity="0.5" />
-                                            <stop offset="55%" stop-color="#0F4D24" stop-opacity="0.15" />
-                                            <stop offset="100%" stop-color="#0F4D24" stop-opacity="0" />
-                                        </radialGradient>
-                                        <linearGradient id="tarmacGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="#141B17" />
-                                            <stop offset="45%" stop-color="#222C26" />
-                                            <stop offset="100%" stop-color="#18221C" />
-                                        </linearGradient>
-                                        <linearGradient id="curbGradL" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stop-color="#E3A91F" />
-                                            <stop offset="50%" stop-color="#DCE6DF" />
-                                            <stop offset="100%" stop-color="#141B17" />
-                                        </linearGradient>
-                                        <linearGradient id="curbGradR" x1="100%" y1="0%" x2="0%" y2="0%">
-                                            <stop offset="0%" stop-color="#E3A91F" />
-                                            <stop offset="50%" stop-color="#DCE6DF" />
-                                            <stop offset="100%" stop-color="#141B17" />
-                                        </linearGradient>
-                                        <filter id="shadowBlur" x="-20%" y="-20%" width="140%" height="140%">
-                                            <feGaussianBlur stdDeviation="6.5" />
-                                        </filter>
-                                    </defs>
-                                    <!-- Background ambient aura -->
-                                    <ellipse cx="260" cy="90" rx="240" ry="85" fill="url(#roadGlow)" />
-                                    <!-- Swat Valley mountain silhouette layers -->
-                                    <path d="M0,90 Q70,55 160,72 T310,48 T440,68 T520,82 L520,130 L0,130 Z" fill="#0C3B1C" opacity="0.3" />
-                                    <path d="M0,98 Q90,70 200,84 T380,66 T520,92 L520,135 L0,135 Z" fill="#134D25" opacity="0.4" />
-                                    <!-- Perspective Road Surface -->
-                                    <polygon points="175,35 345,35 485,215 35,215" fill="url(#tarmacGrad)" />
-                                    <!-- Paved Curbs with Gold accent -->
-                                    <polygon points="163,35 175,35 35,215 15,215" fill="url(#curbGradL)" />
-                                    <polygon points="345,35 357,35 505,215 485,215" fill="url(#curbGradR)" />
-                                    <!-- White Lane Edge Markings -->
-                                    <polygon points="180,35 183,35 50,215 45,215" fill="#FFFFFF" opacity="0.85" />
-                                    <polygon points="340,35 337,35 470,215 475,215" fill="#FFFFFF" opacity="0.85" />
-                                    <!-- Dashed Center Highway Divider with true perspective -->
-                                    <polygon points="259,40 261,40 262,56 258,56" fill="#FFFFFF" opacity="0.95" />
-                                    <polygon points="258.5,68 261.5,68 263,92 257,92" fill="#FFFFFF" opacity="0.95" />
-                                    <polygon points="257.5,108 262.5,108 264.5,142 255.5,142" fill="#FFFFFF" opacity="0.95" />
-                                    <polygon points="256,162 264,162 267,208 253,208" fill="#FFFFFF" opacity="0.95" />
-                                    <!-- Soft Ground Contact Shadow under gate pillars -->
-                                    <ellipse cx="260" cy="138" rx="178" ry="22" fill="#000000" opacity="0.6" filter="url(#shadowBlur)" />
-                                    <ellipse cx="260" cy="138" rx="115" ry="12" fill="#03160A" opacity="0.5" filter="url(#shadowBlur)" />
-                                </svg>
+        <section class="hero3d" id="hero3d" aria-label="University of Swat 3D introduction">
+            <div class="hero3d-sticky">
+                <canvas class="hero3d-canvas" aria-hidden="true"></canvas>
+                <div class="hero3d-fallback" aria-hidden="true"><img src="assets/img/gate-front.png" alt=""></div>
+                <div class="hero3d-vignette"></div>
+                <div class="hero3d-grain"></div>
+
+                <div class="hero3d-ui">
+                    <div class="container">
+                        <div class="hero3d-chapter">
+                            <span class="hero3d-badge"><i></i>Undergraduate Admissions Fall 2026 (Phase-II)</span>
+                            <h1>Aspiring for quality education <em>with relevance.</em></h1>
+                            <p class="hero3d-lead">A public-sector university in the Swat Valley with 58 undergraduate,
+                                19 MS/MPhil and 13 doctorate programs.</p>
+                            <div class="hero3d-actions">
+                                <a class="hero3d-btn gold" href="admissions.html">Admissions Fall 2026
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true">
+                                        <path d="M5 12h14M13 6l6 6-6 6" />
+                                    </svg></a>
+                                <a class="hero3d-btn glass" href="departments.html">Explore departments</a>
                             </div>
-                            <div class="stage-controls">
-                                <span class="stage-3d-hint"><span class="hint-dot"></span><span>3D Interactive • Drag 360°</span></span>
-                                <button type="button" class="btn-stage-reset" id="btnResetCam" title="Reset Camera View" aria-label="Reset 3D View">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                </button>
-                            </div>
-                            <model-viewer id="gateModel" src="assets/models/university_of_swat_gate.glb"
-                                alt="3D model of the University of Swat entrance gate, interactive"
-                                poster="assets/img/gate-poster.png"
-                                camera-controls
-                                auto-rotate
-                                auto-rotate-delay="1200"
-                                rotation-per-second="9deg"
-                                camera-orbit="0deg 83deg 98%"
-                                camera-target="0m 0.6m 0m"
-                                field-of-view="32deg"
-                                min-camera-orbit="auto 65deg 80%"
-                                max-camera-orbit="auto 88deg 130%"
-                                shadow-intensity="1.6"
-                                shadow-softness="0.35"
-                                exposure="1.3"
-                                tone-mapping="aces"
-                                environment-image="neutral"
-                                touch-action="pan-y"
-                                interaction-prompt="none"
-                                loading="eager"
-                                reveal="auto"></model-viewer>
-                            <script>if (window.UOS_GATE_MODEL && location.protocol === 'file:') { document.getElementById('gateModel').src = window.UOS_GATE_MODEL; }</script>
-                            <img class="fallback" src="assets/img/gate-front.png"
-                                alt="University of Swat entrance gate">
-                            <span class="loading" role="status"><i></i>Loading 3D gate</span><span
-                                class="hero-caption">Main gate, University of Swat</span>
                         </div>
                     </div>
                 </div>
-            </div><svg class="ridge" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
-                <polygon points="0,70 0,40 120,18 260,44 420,10 580,46 760,14 940,48 1100,16 1260,44 1440,22 1440,70"
-                    fill="#fff" />
-            </svg>
+
+                <div class="hero3d-loader" role="status">
+                    <img src="assets/img/logo.png" alt="">
+                    <div class="hero3d-loader-bar"><b></b></div>
+                    <small>Entering the valley</small>
+                </div>
+
+                <svg class="hero3d-ridge" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+                    <polygon
+                        points="0,80 0,50 120,28 260,54 420,18 580,56 760,22 940,58 1100,24 1260,52 1440,30 1440,80"
+                        fill="#fff" />
+                </svg>
+            </div>
         </section>
+        <script>
+            /* if the 3D module can't load (offline / blocked CDN), show the static fallback */
+            setTimeout(function () {
+                var h = document.getElementById('hero3d');
+                if (h && !h.classList.contains('ready')) h.classList.add('no-webgl', 'ready');
+            }, 12000);
+        </script>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+                }
+            }
+        </script>
+        <script type="module">
+            import * as THREE from 'three';
+            import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+            import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+            import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+            import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+            import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+            import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+            (function initHero3D() {
+                const root = document.getElementById('hero3d');
+                if (!root) return;
+                const sticky = root.querySelector('.hero3d-sticky');
+                const canvas = root.querySelector('.hero3d-canvas');
+                const loaderBar = root.querySelector('.hero3d-loader-bar b');
+                const header = document.querySelector('.site-header');
+                const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+                let mobile = matchMedia('(max-width: 991.98px)').matches;
+                const introDuration = 3000;
+
+                const fail = () => root.classList.add('no-webgl', 'ready');
+
+                /* ---------- renderer ---------- */
+                let renderer;
+                try {
+                    renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: 'high-performance' });
+                } catch (e) { fail(); return; }
+                if (!renderer.getContext()) { fail(); return; }
+                renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 1.75));
+                renderer.outputColorSpace = THREE.SRGBColorSpace;
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                renderer.toneMappingExposure = 1.05;
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+                const scene = new THREE.Scene();
+                const FOG = new THREE.Color(0x203f30);
+                scene.fog = new THREE.FogExp2(FOG, 0.0045);
+
+                const camera = new THREE.PerspectiveCamera(mobile ? 56 : 42, 1, 0.05, 1200);
+
+                const pmrem = new THREE.PMREMGenerator(renderer);
+                const envTex = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+                scene.environment = envTex;
+
+                /* ---------- helpers ---------- */
+                let seed = 20260;
+                const rand = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+                const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+                const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+                function glowTexture(inner = 'rgba(255,220,140,1)', mid = 'rgba(255,170,60,.35)') {
+                    const c = document.createElement('canvas'); c.width = c.height = 128;
+                    const g = c.getContext('2d');
+                    const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+                    gr.addColorStop(0, inner); gr.addColorStop(.35, mid); gr.addColorStop(1, 'rgba(0,0,0,0)');
+                    g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+                    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+                }
+                const glowTex = glowTexture();
+
+                /* ---------- sky ---------- */
+                const SUN_DIR = new THREE.Vector3(0.18, 0.07, -1).normalize();
+                const sky = new THREE.Mesh(
+                    new THREE.SphereGeometry(500, 48, 24),
+                    new THREE.ShaderMaterial({
+                        side: THREE.BackSide, depthWrite: false, fog: false,
+                        uniforms: {
+                            top: { value: new THREE.Color(0x020b06) },
+                            mid: { value: new THREE.Color(0x0c3121) },
+                            horizon: { value: new THREE.Color(0xd99a45) },
+                            sunColor: { value: new THREE.Color(0xffc670) },
+                            sunDir: { value: SUN_DIR }
+                        },
+                        vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+                        fragmentShader: `uniform vec3 top, mid, horizon, sunColor, sunDir; varying vec3 vDir;
+                            void main(){
+                                vec3 d = normalize(vDir); float h = d.y;
+                                vec3 col = mix(mid, top, smoothstep(0.04, 0.55, h));
+                                float warm = pow(max(dot(normalize(vec3(d.x, 0.0, d.z)), normalize(vec3(sunDir.x,0.0,sunDir.z))), 0.0), 2.5);
+                                col = mix(mix(mid*1.4, horizon, warm), col, smoothstep(-0.03, 0.2 + warm*0.12, h));
+                                float s = max(dot(d, sunDir), 0.0);
+                                col += sunColor * (pow(s, 6.0) * 0.28 + pow(s, 60.0) * 0.9 + pow(s, 900.0) * 3.0);
+                                gl_FragColor = vec4(col, 1.0);
+                            }`
+                    })
+                );
+                scene.add(sky);
+
+                /* stars */
+                {
+                    const n = mobile ? 900 : 1800, pos = new Float32Array(n * 3);
+                    for (let i = 0; i < n; i++) {
+                        const th = rand() * Math.PI * 2, y = 0.08 + rand() * 0.92, r = Math.sqrt(1 - y * y);
+                        pos.set([Math.cos(th) * r * 480, y * 480, Math.sin(th) * r * 480], i * 3);
+                    }
+                    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+                    var stars = new THREE.Points(g, new THREE.PointsMaterial({ color: 0xfff6e0, size: 1.6, sizeAttenuation: false, transparent: true, opacity: .8, fog: false, depthWrite: false }));
+                    scene.add(stars);
+                }
+
+                /* ---------- mountain ranges of the Swat Valley ---------- */
+                function ridge(radius, base, amp, cLow, cHigh, snowAt, freq, fog = true) {
+                    const segs = 320, harmonics = [];
+                    for (let k = 0; k < 7; k++) harmonics.push({ f: Math.round(freq * Math.pow(1.9, k)), a: Math.pow(0.52, k), p: rand() * 6.28 });
+                    const H = th => { let v = 0; harmonics.forEach(hm => v += hm.a * (1 - Math.abs(Math.sin(th * hm.f + hm.p)))); return v / 1.9; };
+                    const pos = [], col = [], idx = [];
+                    const lo = new THREE.Color(cLow), hi = new THREE.Color(cHigh), snow = new THREE.Color(0xe8efe9);
+                    for (let i = 0; i <= segs; i++) {
+                        const th = i / segs * Math.PI * 2;
+                        // keep the view down the road (behind the gate) a little lower so the sunset shows
+                        const dip = 1 - 0.55 * Math.exp(-Math.pow(Math.atan2(Math.sin(th - Math.PI), Math.cos(th - Math.PI)) / 0.35, 2));
+                        const h = base + amp * H(th) * dip;
+                        const sx = Math.sin(th), sz = Math.cos(th);
+                        pos.push(sx * radius, -4, sz * radius);
+                        pos.push(sx * radius * 0.96, h * 0.55, sz * radius * 0.96);
+                        pos.push(sx * radius * 0.92, h, sz * radius * 0.92);
+                        const top = h > snowAt ? hi.clone().lerp(snow, clamp((h - snowAt) / 10)) : hi;
+                        col.push(...lo.toArray(), ...lo.clone().lerp(hi, .45).toArray(), ...top.toArray());
+                        if (i < segs) {
+                            const a = i * 3;
+                            idx.push(a, a + 3, a + 1, a + 1, a + 3, a + 4, a + 1, a + 4, a + 2, a + 2, a + 4, a + 5);
+                        }
+                    }
+                    const g = new THREE.BufferGeometry();
+                    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+                    g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+                    g.setIndex(idx);
+                    return new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, fog }));
+                }
+                scene.add(ridge(320, 40, 95, 0x1a3633, 0x4d6b68, 80, 3, false));
+                scene.add(ridge(190, 16, 48, 0x0f2a1d, 0x274a3a, 50, 4));
+                scene.add(ridge(105, 5, 20, 0x0a2215, 0x16402a, 999, 5));
+
+                /* ---------- ground with gentle hills ---------- */
+                {
+                    const g = new THREE.PlaneGeometry(460, 460, 180, 180);
+                    g.rotateX(-Math.PI / 2);
+                    const p = g.attributes.position, cols = [];
+                    const c1 = new THREE.Color(0x14381f), c2 = new THREE.Color(0x24512c), c3 = new THREE.Color(0x0d2615);
+                    for (let i = 0; i < p.count; i++) {
+                        const x = p.getX(i), z = p.getZ(i);
+                        const keep = smooth(7, 28, Math.abs(x)) * (Math.abs(z) < 8 ? smooth(10, 26, Math.abs(x)) : 1);
+                        const h = (Math.sin(x * 0.07) * Math.cos(z * 0.06) * 2.2 + Math.sin(x * 0.19 + z * 0.13) * 0.9 + Math.cos(z * 0.03 + x * 0.02) * 1.5) * keep;
+                        p.setY(i, h);
+                        const c = c1.clone().lerp(c2, clamp(h / 4 + .4)).lerp(c3, rand() * .35);
+                        cols.push(c.r, c.g, c.b);
+                    }
+                    g.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+                    g.computeVertexNormals();
+                    const ground = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0, flatShading: true }));
+                    ground.receiveShadow = true;
+                    scene.add(ground);
+                }
+
+                /* ---------- road, curbs, lamps ---------- */
+                const ROAD_W = 7.2;
+                {
+                    // asphalt with subtle grain so it reads clearly as a road
+                    const rc = document.createElement('canvas'); rc.width = 256; rc.height = 1024;
+                    const rg = rc.getContext('2d');
+                    rg.fillStyle = '#3a3f3b'; rg.fillRect(0, 0, 256, 1024);
+                    for (let k = 0; k < 9000; k++) { const v = 45 + rand() * 40 | 0; rg.fillStyle = `rgba(${v},${v + 3},${v},.55)`; rg.fillRect(rand() * 256, rand() * 1024, 2, 2); }
+                    const roadTex = new THREE.CanvasTexture(rc); roadTex.colorSpace = THREE.SRGBColorSpace;
+                    roadTex.wrapS = roadTex.wrapT = THREE.RepeatWrapping; roadTex.repeat.set(1, 12);
+                    roadTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    const road = new THREE.Mesh(new THREE.PlaneGeometry(ROAD_W, 150), new THREE.MeshStandardMaterial({ map: roadTex, roughness: .78, metalness: .05 }));
+                    road.rotation.x = -Math.PI / 2; road.position.set(0, 0.03, -15); road.receiveShadow = true; scene.add(road);
+
+                    // footpaths on both sides
+                    const walkMat = new THREE.MeshStandardMaterial({ color: 0x9c9585, roughness: .9 });
+                    const curbMat = new THREE.MeshStandardMaterial({ color: 0xe6e1d3, roughness: .6 });
+                    [-1, 1].forEach(s => {
+                        const curb = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.18, 150), curbMat);
+                        curb.position.set(s * (ROAD_W / 2 + 0.15), 0.09, -15); curb.receiveShadow = true; scene.add(curb);
+                        const walk = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.14, 150), walkMat);
+                        walk.position.set(s * (ROAD_W / 2 + 1.1), 0.07, -15); walk.receiveShadow = true; scene.add(walk);
+                        // solid white edge line
+                        const edge = new THREE.Mesh(new THREE.PlaneGeometry(0.14, 150).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.15, 1.15, 1.1), toneMapped: false }));
+                        edge.position.set(s * (ROAD_W / 2 - 0.35), 0.045, -15); scene.add(edge);
+                    });
+
+                    const dashGeo = new THREE.PlaneGeometry(0.18, 2.2); dashGeo.rotateX(-Math.PI / 2);
+                    const dashZ = []; for (let z = 58; z > -88; z -= 4.6) if (Math.abs(z) > 3.5) dashZ.push(z);
+                    const dashes = new THREE.InstancedMesh(dashGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(1.5, 1.2, 0.45), toneMapped: false }), dashZ.length);
+                    const m = new THREE.Matrix4();
+                    dashZ.forEach((z, i) => { m.makeTranslation(0, 0.045, z); dashes.setMatrixAt(i, m); });
+                    scene.add(dashes);
+
+                    const lampZ = []; for (let z = 52; z > -86; z -= 10) if (Math.abs(z) > 4) lampZ.push(z);
+                    const n = lampZ.length * 2;
+                    const poles = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.05, 0.08, 3.2, 8), new THREE.MeshStandardMaterial({ color: 0x2b2f2c, metalness: .7, roughness: .4 }), n);
+                    const bulbs = new THREE.InstancedMesh(new THREE.SphereGeometry(0.17, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 2.7, 1.2), toneMapped: false }), n);
+                    const pools = new THREE.InstancedMesh(new THREE.PlaneGeometry(4.5, 4.5).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, opacity: .18, blending: THREE.AdditiveBlending, depthWrite: false }), n);
+                    let i = 0;
+                    lampZ.forEach(z => [-1, 1].forEach(s => {
+                        const x = s * (ROAD_W / 2 + 1.6);
+                        m.makeTranslation(x, 1.6, z); poles.setMatrixAt(i, m);
+                        m.makeTranslation(x, 3.25, z); bulbs.setMatrixAt(i, m);
+                        m.makeTranslation(x - s * 0.8, 0.06, z); pools.setMatrixAt(i, m);
+                        i++;
+                    }));
+                    poles.castShadow = true;
+                    scene.add(poles, bulbs, pools);
+                }
+
+                /* ---------- pine forest ---------- */
+                {
+                    const count = mobile ? 380 : 900;
+                    const foliageGeo = new THREE.ConeGeometry(1, 2.6, 7); foliageGeo.translate(0, 2.6, 0);
+                    const foliage2 = new THREE.ConeGeometry(0.75, 2.0, 7); foliage2.translate(0, 3.6, 0);
+                    const trunkGeo = new THREE.CylinderGeometry(0.12, 0.18, 1.4, 6); trunkGeo.translate(0, 0.7, 0);
+                    const matF = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: .9, flatShading: true });
+                    const f1 = new THREE.InstancedMesh(foliageGeo, matF, count);
+                    const f2 = new THREE.InstancedMesh(foliage2, matF, count);
+                    const tr = new THREE.InstancedMesh(trunkGeo, new THREE.MeshStandardMaterial({ color: 0x3b2a1c, roughness: 1 }), count);
+                    const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), pV = new THREE.Vector3(), c = new THREE.Color();
+                    const greens = [0x1a4a2b, 0x143f22, 0x225a31, 0x0f361d, 0x2b5e33];
+                    // 1) tree-lined avenue on both sides of the road  2) groves flanking the gate  3) forest beyond
+                    const spots = [];
+                    for (let z = 56; z > -90; z -= 6.5) [-1, 1].forEach(s => {
+                        if (Math.abs(z) < 5) return;
+                        spots.push([s * (ROAD_W / 2 + 4.6 + rand() * 0.5), z + rand() * 1.2, 0.85 + rand() * 0.25]);
+                        spots.push([s * (ROAD_W / 2 + 7.8 + rand() * 1.8), z + 3 + rand() * 1.5, 1.0 + rand() * 0.4]);
+                    });
+                    for (let k = 0; k < 70; k++) {
+                        const s = rand() < .5 ? -1 : 1;
+                        spots.push([s * (9.9 / 2 + 1.4 + rand() * 14), -7 + rand() * 12, 1 + rand() * 0.9]);
+                    }
+                    let guard = 0;
+                    while (spots.length < count && guard++ < count * 20) {
+                        const x = (rand() - .5) * 220, z = (rand() - .5) * 220 - 20;
+                        if (Math.abs(x) < ROAD_W / 2 + 10) continue;                // keep the road & avenue open
+                        if (Math.hypot(x, z) > 110) continue;
+                        spots.push([x, z, 0.9 + rand() * 1.2 + (Math.abs(x) > 45 ? 0.6 : 0)]);
+                    }
+                    let placed = 0;
+                    for (const [x, z, sc] of spots) {
+                        if (placed >= count) break;
+                        const y = (Math.sin(x * 0.07) * Math.cos(z * 0.06) * 2.2 + Math.sin(x * 0.19 + z * 0.13) * 0.9 + Math.cos(z * 0.03 + x * 0.02) * 1.5) * smooth(7, 28, Math.abs(x)) * (Math.abs(z) < 8 ? smooth(10, 26, Math.abs(x)) : 1);
+                        q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rand() * 6.28);
+                        m.compose(pV.set(x, y - 0.1, z), q, s.set(sc, sc * (0.9 + rand() * 0.4), sc));
+                        f1.setMatrixAt(placed, m); f2.setMatrixAt(placed, m); tr.setMatrixAt(placed, m);
+                        c.set(greens[(rand() * greens.length) | 0]);
+                        f1.setColorAt(placed, c); f2.setColorAt(placed, c.clone().offsetHSL(0, 0, .03));
+                        placed++;
+                    }
+                    [f1, f2, tr].forEach(o => { o.count = placed; o.castShadow = true; o.receiveShadow = true; scene.add(o); });
+                }
+
+                /* ---------- lighting ---------- */
+                scene.add(new THREE.HemisphereLight(0x9cc6a8, 0x0b1c12, 0.75));
+                const sun = new THREE.DirectionalLight(0xffc27a, 2.6);
+                sun.position.set(-22, 20, -34);
+                sun.castShadow = true;
+                sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+                Object.assign(sun.shadow.camera, { left: -40, right: 40, top: 40, bottom: -40, near: 1, far: 120 });
+                sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
+                scene.add(sun);
+                const fill = new THREE.DirectionalLight(0xa8c8ff, 0.9);
+                fill.position.set(14, 16, 26); scene.add(fill);
+
+                /* ---------- gate group ---------- */
+                const gateGroup = new THREE.Group();
+                scene.add(gateGroup);
+                const GATE_H = 4;
+                const dims = { w: 9.9, h: GATE_H, d: 2.2 };
+
+                function finishGate(obj) {
+                    const box = new THREE.Box3().setFromObject(obj);
+                    const size = box.getSize(new THREE.Vector3());
+                    const k = GATE_H / size.y;
+                    obj.scale.multiplyScalar(k);
+                    box.setFromObject(obj);
+                    const ctr = box.getCenter(new THREE.Vector3());
+                    obj.position.x -= ctr.x; obj.position.z -= ctr.z; obj.position.y -= box.min.y;
+                    box.setFromObject(obj).getSize(size);
+                    dims.w = size.x; dims.h = size.y; dims.d = size.z;
+                    obj.traverse(o => {
+                        if (o.isMesh) {
+                            o.castShadow = true; o.receiveShadow = true;
+                            if (o.material && 'envMapIntensity' in o.material) o.material.envMapIntensity = 0.6;
+                        }
+                    });
+                    gateGroup.add(obj);
+
+                    // warm uplights washing the gate facade
+                    [-1, 1].forEach(s => {
+                        const sp = new THREE.SpotLight(0xffd59a, 16, 22, 0.6, 0.85, 1.6);
+                        sp.position.set(s * dims.w * 0.32, 0.25, dims.d / 2 + 5);
+                        sp.target.position.set(s * dims.w * 0.3, dims.h * 0.7, 0);
+                        gateGroup.add(sp, sp.target);
+                    });
+                    // light pouring through the arches from the campus beyond
+                    const back = new THREE.PointLight(0xffb04a, 22, 26, 1.6);
+                    back.position.set(0, dims.h * 0.45, -dims.d / 2 - 2.5);
+                    gateGroup.add(back);
+                    const halo = window.__halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffd08a, transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+                    halo.scale.set(dims.w * 1.7, dims.h * 1.7, 1);
+                    halo.position.set(0, dims.h * 0.5, -dims.d / 2 - 6);
+                    gateGroup.add(halo);
+                    buildPath();
+                }
+
+                /* procedural gate (used if the GLB can't be loaded) */
+                function proceduralGate() {
+                    const g = new THREE.Group();
+                    const stone = new THREE.MeshStandardMaterial({ color: 0xb9b9b4, roughness: .85 });
+                    const dark = new THREE.MeshStandardMaterial({ color: 0x8a8a86, roughness: .9 });
+                    const W = 24.25, H = 9.82, D = 5.4;
+                    const wall = new THREE.Shape();
+                    wall.moveTo(-8.6, 0); wall.lineTo(8.6, 0); wall.lineTo(8.6, 8.4); wall.lineTo(-8.6, 8.4); wall.lineTo(-8.6, 0);
+                    [-3.4, 3.4].forEach(cx => {
+                        const hole = new THREE.Path();
+                        hole.moveTo(cx - 1.8, 0); hole.lineTo(cx - 1.8, 3.6);
+                        hole.quadraticCurveTo(cx - 1.6, 5.6, cx, 6.2); hole.quadraticCurveTo(cx + 1.6, 5.6, cx + 1.8, 3.6);
+                        hole.lineTo(cx + 1.8, 0); hole.lineTo(cx - 1.8, 0);
+                        wall.holes.push(hole);
+                    });
+                    const wg = new THREE.ExtrudeGeometry(wall, { depth: D * 0.7, bevelEnabled: false }); wg.translate(0, 0, -D * 0.35);
+                    g.add(new THREE.Mesh(wg, stone));
+                    [-1, 1].forEach(s => {
+                        const t = new THREE.Mesh(new THREE.BoxGeometry(3.6, H - 0.6, D), dark); t.position.set(s * (W / 2 - 1.8), (H - 0.6) / 2, 0); g.add(t);
+                        for (let i = 0; i < 4; i++) { const c = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.6, D), dark); c.position.set(s * (W / 2 - 0.4 - i * 0.95), H - 0.3, 0); g.add(c); }
+                    });
+                    for (let x = -8.2; x <= 8.2; x += 0.9) { const c = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.5, D * 0.7), stone); c.position.set(x, 8.65, 0); g.add(c); }
+                    return g;
+                }
+
+                /* ---------- fireflies ---------- */
+                const fireflyMat = new THREE.ShaderMaterial({
+                    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+                    uniforms: { uTime: { value: 0 }, uPR: { value: renderer.getPixelRatio() }, uSize: { value: mobile ? 70 : 90 } },
+                    vertexShader: `uniform float uTime, uPR, uSize; attribute float aScale, aPhase; varying float vA;
+                        void main(){
+                            vec3 p = position;
+                            p.y += sin(uTime * 0.7 + aPhase) * 0.45;
+                            p.x += cos(uTime * 0.45 + aPhase * 1.7) * 0.6;
+                            p.z += sin(uTime * 0.38 + aPhase * 2.3) * 0.6;
+                            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+                            gl_Position = projectionMatrix * mv;
+                            gl_PointSize = uSize * aScale * uPR / -mv.z;
+                            vA = 0.35 + 0.65 * pow(0.5 + 0.5 * sin(uTime * 1.8 + aPhase * 4.0), 2.0);
+                        }`,
+                    fragmentShader: `varying float vA;
+                        void main(){
+                            float d = length(gl_PointCoord - 0.5);
+                            float a = smoothstep(0.5, 0.0, d);
+                            gl_FragColor = vec4(vec3(2.2, 1.7, 0.7) * a, a * vA);
+                        }`
+                });
+                {
+                    const n = mobile ? 180 : 360, pos = new Float32Array(n * 3), sc = new Float32Array(n), ph = new Float32Array(n);
+                    for (let i = 0; i < n; i++) {
+                        pos.set([(rand() - .5) * 70, 0.4 + rand() * 6.5, (rand() - .5) * 110 - 10], i * 3);
+                        sc[i] = 0.4 + rand() * 1.2; ph[i] = rand() * 100;
+                    }
+                    const g = new THREE.BufferGeometry();
+                    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+                    g.setAttribute('aScale', new THREE.BufferAttribute(sc, 1));
+                    g.setAttribute('aPhase', new THREE.BufferAttribute(ph, 1));
+                    scene.add(new THREE.Points(g, fireflyMat));
+                }
+
+                /* ---------- floating gold crystals (knowledge) ---------- */
+                const crystals = [];
+                {
+                    const geo = new THREE.OctahedronGeometry(0.42, 0);
+                    const mat = new THREE.MeshStandardMaterial({ color: 0xfacc15, emissive: 0xb7791f, emissiveIntensity: .9, metalness: .75, roughness: .22, flatShading: true });
+                    const edge = new THREE.LineBasicMaterial({ color: new THREE.Color(3, 2.4, 1), toneMapped: false, transparent: true, opacity: .8 });
+                    for (let i = 0; i < 6; i++) {
+                        const mesh = new THREE.Mesh(geo, mat);
+                        mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), edge));
+                        mesh.scale.setScalar(0.6 + rand() * 0.7);
+                        mesh.userData = { a: i / 6 * Math.PI * 2, r: 7.5 + rand() * 3, y: 5 + rand() * 2.5, sp: 0.06 + rand() * 0.05, ph: rand() * 6 };
+                        crystals.push(mesh); scene.add(mesh);
+                    }
+                }
+
+                /* ---------- camera path ---------- */
+                let posCurve, tgtCurve;
+                function buildPath() {
+                    const ax = -dims.w * 0.139, ay = dims.h * 0.46;   // centre of the left arch, above the iron gates
+                    const fz = dims.d / 2;
+                    const lift = mobile ? 1.4 : 0;
+                    const side = mobile ? 0 : 1;
+                    // always straight down the road, facing the gate head-on
+                    const back = mobile ? 6 : 0;
+                    const P = [
+                        [0, 2.4 + lift, 27 + back],
+                        [0, 2.2 + lift * .7, 19 + back * .7],
+                        [0, 2.0 + lift * .4, 12.5 + back * .4],
+                        [ax * 0.7, ay + 0.1, fz + 5],
+                        [ax, ay, -fz - 11]
+                    ];
+                    const T = [
+                        [0, 2.3 + lift * .8, 0],
+                        [0, 2.2 + lift * .6, 0],
+                        [0, 2.1 + lift * .4, 0],
+                        [ax, ay, -fz],
+                        [ax * 0.4, ay + 0.6, -45]
+                    ];
+                    posCurve = new THREE.CatmullRomCurve3(P.map(v => new THREE.Vector3(...v)), false, 'centripetal');
+                    tgtCurve = new THREE.CatmullRomCurve3(T.map(v => new THREE.Vector3(...v)), false, 'centripetal');
+                }
+                buildPath();
+
+                /* ---------- post-processing ---------- */
+                const composer = new EffectComposer(renderer);
+                composer.addPass(new RenderPass(scene, camera));
+                const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), mobile ? 0.5 : 0.6, 0.55, 0.9);
+                composer.addPass(bloom);
+                composer.addPass(new OutputPass());
+
+                /* ---------- load the real gate model ---------- */
+                const manager = new THREE.LoadingManager();
+                manager.onProgress = (_u, l, t) => { loaderBar.style.width = Math.round(l / t * 100) + '%'; };
+                const loader = new GLTFLoader(manager);
+                const local = 'assets/models/university_of_swat_gate.glb';
+                const src = (location.protocol === 'file:' && window.UOS_GATE_MODEL) ? window.UOS_GATE_MODEL : local;
+                let readyCalled = false;
+                const ready = () => {
+                    if (readyCalled) return; readyCalled = true;
+                    loaderBar.style.width = '100%';
+                    renderer.compile(scene, camera);
+                    setTimeout(() => {
+                        root.classList.add('ready');
+                        introStart = performance.now();
+                        requestAnimationFrame(frame);
+                    }, 250);
+                };
+                loader.load(src,
+                    gltf => { finishGate(gltf.scene); ready(); },
+                    xhr => { if (xhr.total) loaderBar.style.width = Math.round(xhr.loaded / xhr.total * 90) + '%'; },
+                    () => {
+                        if (src !== window.UOS_GATE_MODEL && window.UOS_GATE_MODEL) {
+                            loader.load(window.UOS_GATE_MODEL, g => { finishGate(g.scene); ready(); }, undefined, () => { finishGate(proceduralGate()); ready(); });
+                        } else { finishGate(proceduralGate()); ready(); }
+                    });
+
+                /* ---------- layout / input ---------- */
+                let W = 0, H = 0;
+                function resize() {
+                    root.style.setProperty('--hdr', (header ? header.offsetHeight : 0) + 'px');
+                    const wasMobile = mobile;
+                    mobile = matchMedia('(max-width: 991.98px)').matches;
+                    W = sticky.clientWidth; H = sticky.clientHeight;
+                    renderer.setSize(W, H, false);
+                    composer.setSize(W, H);
+                    bloom.resolution.set(W / 2, H / 2);
+                    camera.aspect = W / H;
+                    camera.fov = mobile ? (W / H < 0.7 ? 62 : 56) : 42;
+                    camera.updateProjectionMatrix();
+                    if (wasMobile !== mobile) buildPath();
+                }
+                resize();
+                addEventListener('resize', resize);
+
+                /* ---------- animate ---------- */
+                const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3();
+                let introStart = 0;
+
+                function frame() {
+                    const elapsed = performance.now() - introStart;
+                    const t = elapsed / 1000;
+                    const ip = reduce ? 1 : clamp(elapsed / introDuration);
+                    const ie = reduce ? 0 : Math.pow(1 - ip, 3);
+
+                    // Keep the camera at the opening point and play only the intro.
+                    posCurve.getPoint(0, camPos);
+                    tgtCurve.getPoint(0, camTgt);
+
+                    camPos.y += ie * 9; camPos.z += ie * 22;
+                    camTgt.y += ie * 4;
+
+                    camera.position.copy(camPos);
+                    camera.lookAt(camTgt);
+                    if (!mobile) {
+                        camera.setViewOffset(W, H, -0.2 * W, 0, W, H);
+                    } else if (camera.view) camera.clearViewOffset();
+
+                    // world motion
+                    fireflyMat.uniforms.uTime.value = t;
+                    stars.rotation.y = t * 0.004;
+                    crystals.forEach(c => {
+                        const u = c.userData, a = u.a + t * u.sp;
+                        c.position.set(Math.cos(a) * u.r, u.y + Math.sin(t * 0.9 + u.ph) * 0.35, Math.sin(a) * u.r * 0.6 - 1);
+                        c.rotation.x = t * 0.5 + u.ph; c.rotation.y = t * 0.7 + u.ph;
+                    });
+
+                    composer.render();
+                    if (ip < 1) requestAnimationFrame(frame);
+                    else root.classList.add('intro-finished');
+                }
+
+                addEventListener('resize', () => {
+                    if (introStart && (reduce || performance.now() - introStart >= introDuration)) frame();
+                });
+            })();
+        </script>
         <section class="quick">
             <div class="container">
                 <div class="row g-3">

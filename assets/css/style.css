@@ -762,9 +762,14 @@ a.card-soft:hover,
 }
 
 .quick {
-  margin-top: -3.2rem;
+  margin-top: -4rem;
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
   position: relative;
-  z-index: 5
+  z-index: 10;
+  background: #fff;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
 }
 
 .quick .card-soft {
@@ -772,7 +777,8 @@ a.card-soft:hover,
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.25rem
+  padding: 1.25rem;
+  border-radius: 16px;
 }
 
 .quick h3 {
