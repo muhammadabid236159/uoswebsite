@@ -191,13 +191,13 @@
                 renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 1.75));
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.05;
+                renderer.toneMappingExposure = 0.98;
                 renderer.shadowMap.enabled = true;
                 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
                 const scene = new THREE.Scene();
-                const FOG = new THREE.Color(0x203f30);
-                scene.fog = new THREE.FogExp2(FOG, 0.0045);
+                const FOG = new THREE.Color(0x132a1e);
+                scene.fog = new THREE.FogExp2(FOG, 0.0035);
 
                 const camera = new THREE.PerspectiveCamera(mobile ? 56 : 42, 1, 0.05, 1200);
 
@@ -299,7 +299,7 @@
                     const g = new THREE.PlaneGeometry(460, 460, 180, 180);
                     g.rotateX(-Math.PI / 2);
                     const p = g.attributes.position, cols = [];
-                    const c1 = new THREE.Color(0x14381f), c2 = new THREE.Color(0x24512c), c3 = new THREE.Color(0x0d2615);
+                    const c1 = new THREE.Color(0x134624), c2 = new THREE.Color(0x1f6636), c3 = new THREE.Color(0x0e361b);
                     for (let i = 0; i < p.count; i++) {
                         const x = p.getX(i), z = p.getZ(i);
                         const keep = smooth(7, 28, Math.abs(x)) * (Math.abs(z) < 8 ? smooth(10, 26, Math.abs(x)) : 1);
@@ -318,33 +318,33 @@
                 /* ---------- road, curbs, lamps ---------- */
                 const ROAD_W = 7.2;
                 {
-                    // asphalt with subtle grain so it reads clearly as a road
+                    // clean modern asphalt
                     const rc = document.createElement('canvas'); rc.width = 256; rc.height = 1024;
                     const rg = rc.getContext('2d');
-                    rg.fillStyle = '#3a3f3b'; rg.fillRect(0, 0, 256, 1024);
-                    for (let k = 0; k < 9000; k++) { const v = 45 + rand() * 40 | 0; rg.fillStyle = `rgba(${v},${v + 3},${v},.55)`; rg.fillRect(rand() * 256, rand() * 1024, 2, 2); }
+                    rg.fillStyle = '#272b28'; rg.fillRect(0, 0, 256, 1024);
+                    for (let k = 0; k < 9000; k++) { const v = 34 + rand() * 25 | 0; rg.fillStyle = `rgba(${v},${v + 2},${v},.55)`; rg.fillRect(rand() * 256, rand() * 1024, 2, 2); }
                     const roadTex = new THREE.CanvasTexture(rc); roadTex.colorSpace = THREE.SRGBColorSpace;
                     roadTex.wrapS = roadTex.wrapT = THREE.RepeatWrapping; roadTex.repeat.set(1, 12);
                     roadTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                    const road = new THREE.Mesh(new THREE.PlaneGeometry(ROAD_W, 150), new THREE.MeshStandardMaterial({ map: roadTex, roughness: .78, metalness: .05 }));
+                    const road = new THREE.Mesh(new THREE.PlaneGeometry(ROAD_W, 150), new THREE.MeshStandardMaterial({ map: roadTex, roughness: .85, metalness: .02 }));
                     road.rotation.x = -Math.PI / 2; road.position.set(0, 0.03, -15); road.receiveShadow = true; scene.add(road);
 
                     // footpaths on both sides
-                    const walkMat = new THREE.MeshStandardMaterial({ color: 0x9c9585, roughness: .9 });
-                    const curbMat = new THREE.MeshStandardMaterial({ color: 0xe6e1d3, roughness: .6 });
+                    const walkMat = new THREE.MeshStandardMaterial({ color: 0x8a8475, roughness: .9 });
+                    const curbMat = new THREE.MeshStandardMaterial({ color: 0xd6d1c4, roughness: .6 });
                     [-1, 1].forEach(s => {
                         const curb = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.18, 150), curbMat);
                         curb.position.set(s * (ROAD_W / 2 + 0.15), 0.09, -15); curb.receiveShadow = true; scene.add(curb);
                         const walk = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.14, 150), walkMat);
                         walk.position.set(s * (ROAD_W / 2 + 1.1), 0.07, -15); walk.receiveShadow = true; scene.add(walk);
-                        // solid white edge line
-                        const edge = new THREE.Mesh(new THREE.PlaneGeometry(0.14, 150).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.15, 1.15, 1.1), toneMapped: false }));
+                        // crisp white edge line without blown-out glow
+                        const edge = new THREE.Mesh(new THREE.PlaneGeometry(0.14, 150).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xefede6, roughness: .5 }));
                         edge.position.set(s * (ROAD_W / 2 - 0.35), 0.045, -15); scene.add(edge);
                     });
 
                     const dashGeo = new THREE.PlaneGeometry(0.18, 2.2); dashGeo.rotateX(-Math.PI / 2);
                     const dashZ = []; for (let z = 58; z > -88; z -= 4.6) if (Math.abs(z) > 3.5) dashZ.push(z);
-                    const dashes = new THREE.InstancedMesh(dashGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(1.5, 1.2, 0.45), toneMapped: false }), dashZ.length);
+                    const dashes = new THREE.InstancedMesh(dashGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(1.3, 1.05, 0.35), toneMapped: true }), dashZ.length);
                     const m = new THREE.Matrix4();
                     dashZ.forEach((z, i) => { m.makeTranslation(0, 0.045, z); dashes.setMatrixAt(i, m); });
                     scene.add(dashes);
@@ -372,12 +372,13 @@
                     const foliageGeo = new THREE.ConeGeometry(1, 2.6, 7); foliageGeo.translate(0, 2.6, 0);
                     const foliage2 = new THREE.ConeGeometry(0.75, 2.0, 7); foliage2.translate(0, 3.6, 0);
                     const trunkGeo = new THREE.CylinderGeometry(0.12, 0.18, 1.4, 6); trunkGeo.translate(0, 0.7, 0);
-                    const matF = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: .9, flatShading: true });
+                    const matF = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: .85, flatShading: true });
                     const f1 = new THREE.InstancedMesh(foliageGeo, matF, count);
                     const f2 = new THREE.InstancedMesh(foliage2, matF, count);
                     const tr = new THREE.InstancedMesh(trunkGeo, new THREE.MeshStandardMaterial({ color: 0x3b2a1c, roughness: 1 }), count);
                     const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), pV = new THREE.Vector3(), c = new THREE.Color();
-                    const greens = [0x1a4a2b, 0x143f22, 0x225a31, 0x0f361d, 0x2b5e33];
+                    // rich, lush mountain pine greens
+                    const greens = [0x1d6e3c, 0x247e45, 0x185f33, 0x2b9150, 0x207740, 0x329e57];
                     // 1) tree-lined avenue on both sides of the road  2) groves flanking the gate  3) forest beyond
                     const spots = [];
                     for (let z = 56; z > -90; z -= 6.5) [-1, 1].forEach(s => {
@@ -404,22 +405,22 @@
                         m.compose(pV.set(x, y - 0.1, z), q, s.set(sc, sc * (0.9 + rand() * 0.4), sc));
                         f1.setMatrixAt(placed, m); f2.setMatrixAt(placed, m); tr.setMatrixAt(placed, m);
                         c.set(greens[(rand() * greens.length) | 0]);
-                        f1.setColorAt(placed, c); f2.setColorAt(placed, c.clone().offsetHSL(0, 0, .03));
+                        f1.setColorAt(placed, c); f2.setColorAt(placed, c.clone().offsetHSL(0.01, 0.04, .04));
                         placed++;
                     }
                     [f1, f2, tr].forEach(o => { o.count = placed; o.castShadow = true; o.receiveShadow = true; scene.add(o); });
                 }
 
                 /* ---------- lighting ---------- */
-                scene.add(new THREE.HemisphereLight(0x9cc6a8, 0x0b1c12, 0.75));
-                const sun = new THREE.DirectionalLight(0xffc27a, 2.6);
+                scene.add(new THREE.HemisphereLight(0x8ec8a1, 0x0c2516, 0.85));
+                const sun = new THREE.DirectionalLight(0xffd699, 1.9);
                 sun.position.set(-22, 20, -34);
                 sun.castShadow = true;
                 sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
                 Object.assign(sun.shadow.camera, { left: -40, right: 40, top: 40, bottom: -40, near: 1, far: 120 });
                 sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
                 scene.add(sun);
-                const fill = new THREE.DirectionalLight(0xa8c8ff, 0.9);
+                const fill = new THREE.DirectionalLight(0x5ea378, 0.5);
                 fill.position.set(14, 16, 26); scene.add(fill);
 
                 /* ---------- gate group ---------- */
@@ -446,19 +447,19 @@
                     });
                     gateGroup.add(obj);
 
-                    // warm uplights washing the gate facade
+                    // subtle warm uplights highlighting the gate facade cleanly
                     [-1, 1].forEach(s => {
-                        const sp = new THREE.SpotLight(0xffd59a, 16, 22, 0.6, 0.85, 1.6);
+                        const sp = new THREE.SpotLight(0xffd59a, 9, 22, 0.6, 0.85, 1.6);
                         sp.position.set(s * dims.w * 0.32, 0.25, dims.d / 2 + 5);
                         sp.target.position.set(s * dims.w * 0.3, dims.h * 0.7, 0);
                         gateGroup.add(sp, sp.target);
                     });
                     // light pouring through the arches from the campus beyond
-                    const back = new THREE.PointLight(0xffb04a, 22, 26, 1.6);
+                    const back = new THREE.PointLight(0xffa83b, 10, 26, 1.6);
                     back.position.set(0, dims.h * 0.45, -dims.d / 2 - 2.5);
                     gateGroup.add(back);
-                    const halo = window.__halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffd08a, transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
-                    halo.scale.set(dims.w * 1.7, dims.h * 1.7, 1);
+                    const halo = window.__halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffcb7b, transparent: true, opacity: .2, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+                    halo.scale.set(dims.w * 1.5, dims.h * 1.5, 1);
                     halo.position.set(0, dims.h * 0.5, -dims.d / 2 - 6);
                     gateGroup.add(halo);
                     buildPath();
@@ -467,8 +468,8 @@
                 /* procedural gate (used if the GLB can't be loaded) */
                 function proceduralGate() {
                     const g = new THREE.Group();
-                    const stone = new THREE.MeshStandardMaterial({ color: 0xb9b9b4, roughness: .85 });
-                    const dark = new THREE.MeshStandardMaterial({ color: 0x8a8a86, roughness: .9 });
+                    const stone = new THREE.MeshStandardMaterial({ color: 0xc8c6bd, roughness: .85 });
+                    const dark = new THREE.MeshStandardMaterial({ color: 0x5a5f5c, roughness: .9 });
                     const W = 24.25, H = 9.82, D = 5.4;
                     const wall = new THREE.Shape();
                     wall.moveTo(-8.6, 0); wall.lineTo(8.6, 0); wall.lineTo(8.6, 8.4); wall.lineTo(-8.6, 8.4); wall.lineTo(-8.6, 0);
@@ -570,7 +571,7 @@
                 /* ---------- post-processing ---------- */
                 const composer = new EffectComposer(renderer);
                 composer.addPass(new RenderPass(scene, camera));
-                const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), mobile ? 0.5 : 0.6, 0.55, 0.9);
+                const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), mobile ? 0.35 : 0.42, 0.72, 0.85);
                 composer.addPass(bloom);
                 composer.addPass(new OutputPass());
 
