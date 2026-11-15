@@ -188,7 +188,7 @@
                     renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: 'high-performance' });
                 } catch (e) { fail(); return; }
                 if (!renderer.getContext()) { fail(); return; }
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5));
+                renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 1.75));
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
                 renderer.toneMappingExposure = 1.05;
@@ -609,7 +609,7 @@
                     W = sticky.clientWidth; H = sticky.clientHeight;
                     renderer.setSize(W, H, false);
                     composer.setSize(W, H);
-                    bloom.resolution.set(Math.min(W / 2, 512), Math.min(H / 2, 512));
+                    bloom.resolution.set(W / 2, H / 2);
                     camera.aspect = W / H;
                     camera.fov = mobile ? (W / H < 0.7 ? 62 : 56) : 42;
                     camera.updateProjectionMatrix();
@@ -618,62 +618,22 @@
                 resize();
                 addEventListener('resize', resize);
 
-                /* ---------- interactive mouse parallax (ultra-light) ---------- */
-                let mouseX = 0, mouseY = 0;
-                let targetMouseX = 0, targetMouseY = 0;
-                if (!mobile) {
-                    window.addEventListener('pointermove', (e) => {
-                        targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                        targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-                    }, { passive: true });
-                }
-
-                /* ---------- visibility observer (prevents lagging/hanging when scrolled) ---------- */
-                let isVisible = true;
-                let animId = null;
-                if ('IntersectionObserver' in window) {
-                    const observer = new IntersectionObserver((entries) => {
-                        isVisible = entries[0].isIntersecting;
-                        if (isVisible && !animId && introStart) {
-                            animId = requestAnimationFrame(frame);
-                        } else if (!isVisible && animId) {
-                            cancelAnimationFrame(animId);
-                            animId = null;
-                        }
-                    }, { threshold: 0.05 });
-                    observer.observe(root);
-                }
-
                 /* ---------- animate ---------- */
                 const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3();
                 let introStart = 0;
 
                 function frame() {
-                    animId = null;
-                    if (!isVisible) return;
-
                     const elapsed = performance.now() - introStart;
                     const t = elapsed / 1000;
                     const ip = reduce ? 1 : clamp(elapsed / introDuration);
                     const ie = reduce ? 0 : Math.pow(1 - ip, 3);
 
-                    // Keep the camera at the opening point and play the intro.
+                    // Keep the camera at the opening point and play only the intro.
                     posCurve.getPoint(0, camPos);
                     tgtCurve.getPoint(0, camTgt);
 
-                    camPos.y += ie * 9;
-                    camPos.z += ie * 22;
+                    camPos.y += ie * 9; camPos.z += ie * 22;
                     camTgt.y += ie * 4;
-
-                    // Smooth subtle mouse parallax after intro starts
-                    if (!mobile && !reduce) {
-                        mouseX += (targetMouseX - mouseX) * 0.04;
-                        mouseY += (targetMouseY - mouseY) * 0.04;
-                        const pFactor = clamp((elapsed - 400) / 2000);
-                        camPos.x += mouseX * 0.75 * pFactor;
-                        camPos.y += -mouseY * 0.35 * pFactor;
-                        camTgt.x += mouseX * 0.35 * pFactor;
-                    }
 
                     camera.position.copy(camPos);
                     camera.lookAt(camTgt);
@@ -681,29 +641,22 @@
                         camera.setViewOffset(W, H, -0.2 * W, 0, W, H);
                     } else if (camera.view) camera.clearViewOffset();
 
-                    // World ambient motion (continuous, smooth 60fps)
+                    // world motion
                     fireflyMat.uniforms.uTime.value = t;
-                    stars.rotation.y = t * 0.003;
+                    stars.rotation.y = t * 0.004;
                     crystals.forEach(c => {
                         const u = c.userData, a = u.a + t * u.sp;
                         c.position.set(Math.cos(a) * u.r, u.y + Math.sin(t * 0.9 + u.ph) * 0.35, Math.sin(a) * u.r * 0.6 - 1);
-                        c.rotation.x = t * 0.5 + u.ph;
-                        c.rotation.y = t * 0.7 + u.ph;
+                        c.rotation.x = t * 0.5 + u.ph; c.rotation.y = t * 0.7 + u.ph;
                     });
 
                     composer.render();
-
-                    if (ip >= 1 && !root.classList.contains('intro-finished')) {
-                        root.classList.add('intro-finished');
-                    }
-
-                    if (isVisible) {
-                        animId = requestAnimationFrame(frame);
-                    }
+                    if (ip < 1) requestAnimationFrame(frame);
+                    else root.classList.add('intro-finished');
                 }
 
                 addEventListener('resize', () => {
-                    if (introStart && !animId && isVisible) frame();
+                    if (introStart && (reduce || performance.now() - introStart >= introDuration)) frame();
                 });
             })();
         </script>

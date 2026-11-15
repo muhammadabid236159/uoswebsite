@@ -99,41 +99,6 @@
   pointer-events: auto;
 }
 
-/* Staggered entrance animations */
-.hero3d-badge,
-.hero3d h1,
-.hero3d-lead,
-.hero3d-actions {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity .8s cubic-bezier(0.16, 1, 0.3, 1), transform .8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.hero3d.ready .hero3d-badge {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: .2s;
-}
-
-.hero3d.ready .hero3d h1 {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: .4s;
-}
-
-.hero3d.ready .hero3d-lead {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: .6s;
-}
-
-.hero3d.ready .hero3d-actions {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: .8s;
-}
-
 .hero3d-badge {
   display: inline-flex;
   align-items: center;
@@ -278,4 +243,5 @@
 }
 
 .hero3d.intro-finished .hero3d-grain,
+.hero3d.intro-finished .hero3d-badge i,
 .hero3d.intro-finished .hero3d-loader img { animation: none; }
