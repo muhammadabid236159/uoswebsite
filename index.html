@@ -185,15 +185,14 @@
                 /* ---------- renderer ---------- */
                 let renderer;
                 try {
-                    renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: 'high-performance' });
+                    renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', precision: 'mediump' });
                 } catch (e) { fail(); return; }
                 if (!renderer.getContext()) { fail(); return; }
-                renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 1.75));
+                renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.15));
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 0.98;
-                renderer.shadowMap.enabled = true;
-                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                renderer.toneMappingExposure = 1.0;
+                renderer.shadowMap.enabled = false;
 
                 const scene = new THREE.Scene();
                 const FOG = new THREE.Color(0x132a1e);
@@ -568,12 +567,7 @@
                 }
                 buildPath();
 
-                /* ---------- post-processing ---------- */
-                const composer = new EffectComposer(renderer);
-                composer.addPass(new RenderPass(scene, camera));
-                const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), mobile ? 0.35 : 0.42, 0.72, 0.85);
-                composer.addPass(bloom);
-                composer.addPass(new OutputPass());
+                /* ---------- direct high-performance rendering ---------- */
 
                 /* ---------- load the real gate model ---------- */
                 const manager = new THREE.LoadingManager();
@@ -609,8 +603,6 @@
                     mobile = matchMedia('(max-width: 991.98px)').matches;
                     W = sticky.clientWidth; H = sticky.clientHeight;
                     renderer.setSize(W, H, false);
-                    composer.setSize(W, H);
-                    bloom.resolution.set(W / 2, H / 2);
                     camera.aspect = W / H;
                     camera.fov = mobile ? (W / H < 0.7 ? 62 : 56) : 42;
                     camera.updateProjectionMatrix();
@@ -651,7 +643,7 @@
                         c.rotation.x = t * 0.5 + u.ph; c.rotation.y = t * 0.7 + u.ph;
                     });
 
-                    composer.render();
+                    renderer.render(scene, camera);
                     if (ip < 1) requestAnimationFrame(frame);
                     else root.classList.add('intro-finished');
                 }

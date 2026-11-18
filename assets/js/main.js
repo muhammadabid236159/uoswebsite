@@ -3,6 +3,16 @@
   'use strict';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* sticky header glass state after scroll */
+  var header = document.querySelector('.site-header');
+  if (header) {
+    var toggleHeader = function () {
+      header.classList.toggle('scrolled', window.scrollY > 24);
+    };
+    toggleHeader();
+    window.addEventListener('scroll', toggleHeader, { passive: true });
+  }
+
   /* reveal on scroll */
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
@@ -126,4 +136,162 @@
     document.getElementById('formDone').classList.remove('d-none');
     window.location.href = 'mailto:academics@uswat.edu.pk?subject=' + subject + '&body=' + body;
   });
+
+  /* ambient 3D glowing particles for page heroes across all subpages */
+  function initPageHeroParticles() {
+    if (reduce) return;
+    var heroes = document.querySelectorAll('.page-hero, .dev-page-hero');
+    if (!heroes.length) return;
+
+    heroes.forEach(function (hero) {
+      var canvas = document.createElement('canvas');
+      canvas.className = 'hero-ambient-canvas';
+      hero.insertBefore(canvas, hero.firstChild);
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      var width = 0, height = 0;
+      var particles = [];
+      var mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+      var running = false;
+      var rafId = null;
+
+      function resize() {
+        width = canvas.width = hero.offsetWidth;
+        height = canvas.height = hero.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      var count = Math.min(Math.max(Math.floor((width * height) / 10000), 24), 50);
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          z: 0.35 + Math.random() * 0.65,
+          r: 1.2 + Math.random() * 2.2,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: -0.15 - Math.random() * 0.35,
+          alpha: 0.2 + Math.random() * 0.5,
+          phase: Math.random() * Math.PI * 2,
+          gold: Math.random() > 0.45
+        });
+      }
+
+      hero.addEventListener('mousemove', function (e) {
+        var rect = hero.getBoundingClientRect();
+        mouse.tx = (e.clientX - rect.left - width / 2) * 0.08;
+        mouse.ty = (e.clientY - rect.top - height / 2) * 0.08;
+      }, { passive: true });
+
+      hero.addEventListener('mouseleave', function () {
+        mouse.tx = 0;
+        mouse.ty = 0;
+      });
+
+      function render() {
+        if (!running) return;
+        ctx.clearRect(0, 0, width, height);
+
+        mouse.x += (mouse.tx - mouse.x) * 0.05;
+        mouse.y += (mouse.ty - mouse.y) * 0.05;
+
+        var len = particles.length;
+        for (var i = 0; i < len; i++) {
+          var p = particles[i];
+          p.x += p.vx + mouse.x * p.z * 0.02;
+          p.y += p.vy + mouse.y * p.z * 0.02;
+          p.phase += 0.025;
+
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+          if (p.y < -10) p.y = height + 10;
+          if (p.y > height + 10) p.y = -10;
+
+          var pulsate = p.alpha * (0.75 + 0.25 * Math.sin(p.phase));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold
+            ? 'rgba(250, 204, 21, ' + pulsate + ')'
+            : 'rgba(52, 211, 153, ' + pulsate + ')';
+          ctx.shadowColor = p.gold ? '#facc15' : '#10b981';
+          ctx.shadowBlur = 8 * p.z;
+          ctx.fill();
+
+          for (var j = i + 1; j < len; j++) {
+            var p2 = particles[j];
+            var dx = p.x - p2.x;
+            var dy = p.y - p2.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 80) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              var lineAlpha = (1 - dist / 80) * 0.12 * Math.min(p.alpha, p2.alpha);
+              ctx.strokeStyle = 'rgba(250, 204, 21, ' + lineAlpha + ')';
+              ctx.lineWidth = 0.7;
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.shadowBlur = 0;
+        rafId = requestAnimationFrame(render);
+      }
+
+      if ('IntersectionObserver' in window) {
+        var heroObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              if (!running) {
+                running = true;
+                rafId = requestAnimationFrame(render);
+              }
+            } else {
+              running = false;
+              if (rafId) cancelAnimationFrame(rafId);
+            }
+          });
+        }, { threshold: 0.05 });
+        heroObserver.observe(hero);
+      } else {
+        running = true;
+        render();
+      }
+    });
+  }
+  initPageHeroParticles();
+
+  /* 3D perspective tilt on interactive cards across the website */
+  function init3DCardTilt() {
+    if (reduce || !window.matchMedia || !window.matchMedia('(hover: hover) and (min-width: 992px)').matches) return;
+    var targets = document.querySelectorAll('.block-card, .campus-feature-card, .step-card, .step-light, .quick-card');
+    targets.forEach(function (card) {
+      card.classList.add('card-tilt-target');
+
+      var rect = null;
+      function updateRect() { rect = card.getBoundingClientRect(); }
+
+      card.addEventListener('mouseenter', function () {
+        updateRect();
+        card.classList.remove('tilt-reset');
+      });
+
+      card.addEventListener('mousemove', function (e) {
+        if (!rect) updateRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotX = ((y - cy) / cy) * -5.5;
+        var rotY = ((x - cx) / cx) * 6.5;
+        card.style.transform = 'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateY(-4px)';
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.classList.add('tilt-reset');
+        card.style.transform = '';
+      });
+    });
+  }
+  init3DCardTilt();
 })();
