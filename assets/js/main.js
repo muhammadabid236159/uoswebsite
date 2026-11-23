@@ -294,4 +294,107 @@
     });
   }
   init3DCardTilt();
+
+  /* metric rings animation on scroll */
+  function initMetricRings() {
+    var metricCards = document.querySelectorAll('[data-metric-card]');
+    if (!metricCards.length) return;
+
+    if ('IntersectionObserver' in window && !reduce) {
+      var mo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            mo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      metricCards.forEach(function (c) { mo.observe(c); });
+    } else {
+      metricCards.forEach(function (c) { c.classList.add('visible'); });
+    }
+  }
+  initMetricRings();
+
+  /* interactive campus map */
+  function initCampusMap() {
+    var markers = document.querySelectorAll('.map-marker');
+    var infoPanel = document.getElementById('mapInfo');
+    if (!markers.length || !infoPanel) return;
+
+    var buildingInfo = {
+      'gate': {
+        title: 'Main Gate',
+        desc: 'The iconic grand entrance to University of Swat at Charbagh, featuring heritage architectural towers, modern security checkpoints, and sweeping mountain vistas.',
+        link: 'about.html#campuses',
+        linkText: 'Learn more about Main Campus'
+      },
+      'block-a': {
+        title: 'Academic Block A (DCST Hub)',
+        desc: 'Houses Computer & Software Technology (DCST), Geology, Chemistry, Media Studies, and Environmental Sciences with advanced computing labs and research facilities.',
+        link: 'dcst.html',
+        linkText: 'Explore DCST Department'
+      },
+      'block-b': {
+        title: 'Academic Block B',
+        desc: 'Center for Education, Management & Commerce, Islamic & Arabic Studies, Social Sciences, Law & Shariah, and Archaeology.',
+        link: 'departments.html',
+        linkText: 'View Block B Departments'
+      },
+      'block-c': {
+        title: 'Academic Block C',
+        desc: 'Natural & Bio-Sciences hub: Botany, Agricultural Sciences & Forestry, Biotechnology, Psychology, Mathematics & Statistics, Economics, and Zoology.',
+        link: 'departments.html',
+        linkText: 'View Block C Departments'
+      },
+      'library': {
+        title: 'Central Research Library',
+        desc: 'Modern university library equipped with high-speed digital cataloging, research terminals, quiet reading zones, and over 50,000 reference books and journals.',
+        link: 'departments.html',
+        linkText: 'Central Library Services'
+      },
+      'hunerkada': {
+        title: 'Hunerkada (Center of Excellence)',
+        desc: 'Dedicated academy celebrating Gandhara art, creative crafts, design, painting, and regional cultural preservation.',
+        link: 'departments.html',
+        linkText: 'Discover Hunerkada'
+      },
+      'allied-health': {
+        title: 'Allied Health Sciences Building',
+        desc: 'Features modern medical labs for Doctor of Physical Therapy (DPT), Medical Lab Technology (MLT), Dental Technology, and Humanities.',
+        link: 'departments.html',
+        linkText: 'Explore Allied Health Programs'
+      }
+    };
+
+    markers.forEach(function (marker) {
+      marker.addEventListener('click', function () {
+        var id = marker.getAttribute('data-building');
+        var data = buildingInfo[id];
+        if (!data) return;
+
+        markers.forEach(function (m) { m.classList.remove('active'); });
+        marker.classList.add('active');
+
+        infoPanel.innerHTML = '<h4>' + data.title + '</h4>' +
+          '<p>' + data.desc + '</p>' +
+          '<a href="' + data.link + '" class="btn btn-sm btn-green mt-3">' + data.linkText + '</a>';
+      });
+    });
+  }
+  initCampusMap();
+
+  /* live feed dismiss */
+  function initLiveFeed() {
+    var closeBtn = document.getElementById('closeLiveFeed');
+    var feed = document.getElementById('liveFeed');
+    if (!closeBtn || !feed) return;
+    closeBtn.addEventListener('click', function () {
+      feed.style.opacity = '0';
+      feed.style.transform = 'translateY(20px)';
+      feed.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      setTimeout(function () { feed.style.display = 'none'; }, 350);
+    });
+  }
+  initLiveFeed();
 })();

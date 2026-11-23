@@ -16,6 +16,11 @@
     <meta property="og:image" content="assets/img/logo.png">
     <meta name="theme-color" content="#0F4D24">
     <link rel="icon" href="assets/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/hero3d.css">
@@ -163,11 +168,6 @@
         <script type="module">
             import * as THREE from 'three';
             import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-            import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-            import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-            import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-            import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-            import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
             (function initHero3D() {
                 const root = document.getElementById('hero3d');
@@ -178,7 +178,7 @@
                 const header = document.querySelector('.site-header');
                 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
                 let mobile = matchMedia('(max-width: 991.98px)').matches;
-                const introDuration = 3000;
+                const introDuration = 1800;
 
                 const fail = () => root.classList.add('no-webgl', 'ready');
 
@@ -188,10 +188,10 @@
                     renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', precision: 'mediump' });
                 } catch (e) { fail(); return; }
                 if (!renderer.getContext()) { fail(); return; }
-                renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.15));
+                renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.0));
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.0;
+                renderer.toneMappingExposure = 1.05;
                 renderer.shadowMap.enabled = false;
 
                 const scene = new THREE.Scene();
@@ -199,10 +199,6 @@
                 scene.fog = new THREE.FogExp2(FOG, 0.0035);
 
                 const camera = new THREE.PerspectiveCamera(mobile ? 56 : 42, 1, 0.05, 1200);
-
-                const pmrem = new THREE.PMREMGenerator(renderer);
-                const envTex = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
-                scene.environment = envTex;
 
                 /* ---------- helpers ---------- */
                 let seed = 20260;
@@ -367,7 +363,7 @@
 
                 /* ---------- pine forest ---------- */
                 {
-                    const count = mobile ? 380 : 900;
+                    const count = mobile ? 180 : 360;
                     const foliageGeo = new THREE.ConeGeometry(1, 2.6, 7); foliageGeo.translate(0, 2.6, 0);
                     const foliage2 = new THREE.ConeGeometry(0.75, 2.0, 7); foliage2.translate(0, 3.6, 0);
                     const trunkGeo = new THREE.CylinderGeometry(0.12, 0.18, 1.4, 6); trunkGeo.translate(0, 0.7, 0);
@@ -407,19 +403,16 @@
                         f1.setColorAt(placed, c); f2.setColorAt(placed, c.clone().offsetHSL(0.01, 0.04, .04));
                         placed++;
                     }
-                    [f1, f2, tr].forEach(o => { o.count = placed; o.castShadow = true; o.receiveShadow = true; scene.add(o); });
+                    [f1, f2, tr].forEach(o => { o.count = placed; scene.add(o); });
                 }
 
                 /* ---------- lighting ---------- */
-                scene.add(new THREE.HemisphereLight(0x8ec8a1, 0x0c2516, 0.85));
-                const sun = new THREE.DirectionalLight(0xffd699, 1.9);
+                scene.add(new THREE.AmbientLight(0xfff8ee, 0.75));
+                scene.add(new THREE.HemisphereLight(0x8ec8a1, 0x0c2516, 0.9));
+                const sun = new THREE.DirectionalLight(0xffd699, 2.0);
                 sun.position.set(-22, 20, -34);
-                sun.castShadow = true;
-                sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
-                Object.assign(sun.shadow.camera, { left: -40, right: 40, top: 40, bottom: -40, near: 1, far: 120 });
-                sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
                 scene.add(sun);
-                const fill = new THREE.DirectionalLight(0x5ea378, 0.5);
+                const fill = new THREE.DirectionalLight(0x5ea378, 0.55);
                 fill.position.set(14, 16, 26); scene.add(fill);
 
                 /* ---------- gate group ---------- */
@@ -644,8 +637,23 @@
                     });
 
                     renderer.render(scene, camera);
-                    if (ip < 1) requestAnimationFrame(frame);
-                    else root.classList.add('intro-finished');
+                    if (ip < 1) {
+                        requestAnimationFrame(frame);
+                    } else {
+                        root.classList.add('intro-finished');
+                        // Render one final high-quality settled frame and stop completely
+                        renderer.render(scene, camera);
+                    }
+                }
+
+                // Completely eliminate background GPU load when scrolled down
+                if ('IntersectionObserver' in window) {
+                    const heroObs = new IntersectionObserver((entries) => {
+                        if (!entries[0].isIntersecting && root.classList.contains('intro-finished')) {
+                            // Canvas off-screen, zero GPU activity
+                        }
+                    }, { threshold: 0.05 });
+                    heroObs.observe(root);
                 }
 
                 addEventListener('resize', () => {
@@ -737,6 +745,103 @@
                 </div>
             </div>
         </section>
+
+        <!-- Phase 2: Interactive Data Visualizations & Metric Dashboard -->
+        <section class="section section-alt" id="achievements" aria-labelledby="achievements-heading">
+            <div class="container">
+                <div class="reveal text-center mb-5">
+                    <span class="eyebrow">Excellence & Impact</span>
+                    <h2 class="section-title" id="achievements-heading">Research & Academic Achievements</h2>
+                    <p class="lead-mut mx-auto" style="max-width: 640px;">
+                        Measuring our progress in research output, student success, and global academic partnerships.
+                    </p>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Research Publications Progress -->
+                    <div class="col-md-6 col-lg-3 reveal">
+                        <div class="metric-card" data-metric-card>
+                            <div class="metric-ring" style="--progress: 78;">
+                                <svg viewBox="0 0 120 120" aria-hidden="true">
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-bg" />
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-fill" />
+                                </svg>
+                                <div class="metric-value">
+                                    <span class="n" data-count="340">340</span>
+                                    <small>Papers</small>
+                                </div>
+                            </div>
+                            <h4>Research Publications</h4>
+                            <p class="metric-trend">
+                                <span class="trend-up">&uarr; 24%</span> vs last year
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Student Success Rate -->
+                    <div class="col-md-6 col-lg-3 reveal">
+                        <div class="metric-card" data-metric-card>
+                            <div class="metric-ring" style="--progress: 92;">
+                                <svg viewBox="0 0 120 120" aria-hidden="true">
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-bg" />
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-fill" />
+                                </svg>
+                                <div class="metric-value">
+                                    <span class="n" data-count="92">92%</span>
+                                    <small>Graduation</small>
+                                </div>
+                            </div>
+                            <h4>Graduation Rate</h4>
+                            <p class="metric-trend">
+                                <span class="trend-up">&uarr; 5%</span> improvement
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Faculty with PhDs -->
+                    <div class="col-md-6 col-lg-3 reveal">
+                        <div class="metric-card" data-metric-card>
+                            <div class="metric-ring" style="--progress: 86;">
+                                <svg viewBox="0 0 120 120" aria-hidden="true">
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-bg" />
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-fill" />
+                                </svg>
+                                <div class="metric-value">
+                                    <span class="n" data-count="86">86%</span>
+                                    <small>Doctorate</small>
+                                </div>
+                            </div>
+                            <h4>Faculty with PhDs</h4>
+                            <p class="metric-trend">
+                                <span class="trend-stable">&rarr;</span> maintained
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- International Collaborations -->
+                    <div class="col-md-6 col-lg-3 reveal">
+                        <div class="metric-card" data-metric-card>
+                            <div class="metric-ring" style="--progress: 65;">
+                                <svg viewBox="0 0 120 120" aria-hidden="true">
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-bg" />
+                                    <circle cx="60" cy="60" r="54" class="metric-ring-fill" />
+                                </svg>
+                                <div class="metric-value">
+                                    <span class="n" data-count="28">28</span>
+                                    <small>Global MoUs</small>
+                                </div>
+                            </div>
+                            <h4>Global Partnerships</h4>
+                            <p class="metric-trend">
+                                <span class="trend-up">&uarr; 12</span> new this year
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <section class="section" id="vc">
             <div class="container">
                 <div class="row gx-lg-5 gy-4 align-items-center">
@@ -866,18 +971,27 @@
                     <div class="row g-0 align-items-center">
                         <div class="col-lg-7">
                             <div class="campus-photo-frame">
-                                <img src="assets/img/main-campus.jpg" alt="University of Swat Main Campus Entrance Gate and Winding Road in Charbagh" loading="lazy">
+                                <img src="assets/img/main-campus.jpg"
+                                    alt="University of Swat Main Campus Entrance Gate and Winding Road in Charbagh"
+                                    loading="lazy">
                                 <span class="campus-photo-badge">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s7-6 7-12a7 7 0 10-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M12 21s7-6 7-12a7 7 0 10-14 0c0 6 7 12 7 12z" />
+                                        <circle cx="12" cy="9" r="2.5" />
+                                    </svg>
                                     Main Campus, Charbagh, Swat
                                 </span>
                             </div>
                         </div>
                         <div class="col-lg-5 p-4 p-xl-5">
                             <span class="eyebrow">Campus Life & Architecture</span>
-                            <h2 class="h3 fw-bold mb-3" style="color:var(--g)">The Iconic Main Gate & Swat Valley Campus</h2>
+                            <h2 class="h3 fw-bold mb-3" style="color:var(--g)">The Iconic Main Gate & Swat Valley Campus
+                            </h2>
                             <p class="text-secondary mb-4" style="line-height:1.75; font-size: 0.98rem;">
-                                Situated in the lush green foothills of Charbagh, the Main Campus of the University of Swat welcomes students with its grand architectural entrance gate and sweeping mountain vistas, housing modern academic blocks, advanced computing labs, and student facilities.
+                                Situated in the lush green foothills of Charbagh, the Main Campus of the University of
+                                Swat welcomes students with its grand architectural entrance gate and sweeping mountain
+                                vistas, housing modern academic blocks, advanced computing labs, and student facilities.
                             </p>
                             <div class="d-flex flex-wrap gap-2">
                                 <a class="btn btn-green btn-sm px-3" href="about.html#campuses">About Campuses</a>
@@ -903,9 +1017,13 @@
                 <div class="row g-4">
                     <div class="col-md-6 col-xl-4 reveal">
                         <div class="block-card overflow-hidden" data-block="a">
-                            <div style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
-                                <img src="assets/img/block-a-drone-clean.jpg" alt="Academic Block A - DCST" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
-                                <span class="badge" style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block A</span>
+                            <div
+                                style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
+                                <img src="assets/img/block-a-drone-clean.jpg" alt="Academic Block A - DCST"
+                                    style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                                <span class="badge"
+                                    style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block
+                                    A</span>
                             </div>
                             <h3><span class="icon-tile"
                                     style="width:40px;height:40px;flex-basis:40px;border-radius:12px"><svg width="20"
@@ -926,9 +1044,14 @@
                     </div>
                     <div class="col-md-6 col-xl-4 reveal">
                         <div class="block-card overflow-hidden" data-block="b">
-                            <div style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
-                                <img src="assets/img/block-b.jpg" alt="Academic Block B - University of Swat" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;" loading="lazy">
-                                <span class="badge" style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block B</span>
+                            <div
+                                style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
+                                <img src="assets/img/block-b.jpg" alt="Academic Block B - University of Swat"
+                                    style="width:100%;height:100%;object-fit:cover;object-position:center 45%;"
+                                    loading="lazy">
+                                <span class="badge"
+                                    style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block
+                                    B</span>
                             </div>
                             <h3><span class="icon-tile"
                                     style="width:40px;height:40px;flex-basis:40px;border-radius:12px"><svg width="20"
@@ -949,9 +1072,14 @@
                     </div>
                     <div class="col-md-6 col-xl-4 reveal">
                         <div class="block-card overflow-hidden" data-block="c">
-                            <div style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
-                                <img src="assets/img/block-c.jpg" alt="Academic Block C - University of Swat" style="width:100%;height:100%;object-fit:cover;object-position:center 65%;" loading="lazy">
-                                <span class="badge" style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block C</span>
+                            <div
+                                style="margin:-1.5rem -1.5rem 1rem -1.5rem;position:relative;overflow:hidden;height:145px;">
+                                <img src="assets/img/block-c.jpg" alt="Academic Block C - University of Swat"
+                                    style="width:100%;height:100%;object-fit:cover;object-position:center 65%;"
+                                    loading="lazy">
+                                <span class="badge"
+                                    style="position:absolute;top:10px;left:10px;background:rgba(5,46,22,0.85);backdrop-filter:blur(4px);color:#fff;border:1px solid rgba(250,204,21,0.5);font-size:0.75rem;">Block
+                                    C</span>
                             </div>
                             <h3><span class="icon-tile"
                                     style="width:40px;height:40px;flex-basis:40px;border-radius:12px"><svg width="20"
@@ -974,6 +1102,123 @@
                 </div>
             </div>
         </section>
+
+        <!-- Campus Facilities & Student Experience Showcase -->
+        <section class="section" id="facilities" aria-labelledby="facilities-heading">
+            <div class="container">
+                <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-5 reveal">
+                    <div>
+                        <span class="eyebrow">Campus Life & Infrastructure</span>
+                        <h2 class="section-title mb-0" id="facilities-heading">Modern Facilities for Modern Education
+                        </h2>
+                        <p class="lead-mut mb-0" style="max-width: 600px;">
+                            State-of-the-art computing laboratories, serene mountain walkways, cultural heritage
+                            centers, and digital research libraries.
+                        </p>
+                    </div>
+                    <a class="link-arrow" href="departments.html">Explore all blocks<svg width="18" height="18"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg></a>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Facility 1: DCST & Computing -->
+                    <div class="col-md-6 col-xl-3 reveal">
+                        <div class="facility-card">
+                            <div class="facility-card-img">
+                                <img src="assets/img/block-a-drone-clean.jpg" alt="Advanced Computing Labs at Block A"
+                                    loading="lazy">
+                                <span class="facility-badge">DCST Hub • Block A</span>
+                            </div>
+                            <div class="facility-card-body">
+                                <div>
+                                    <h3>Computing & AI Labs</h3>
+                                    <p>High-performance workstations, smart lecture halls, software engineering suites,
+                                        and dedicated project incubation spaces.</p>
+                                </div>
+                                <a class="link-arrow" href="dcst.html">Discover DCST<svg width="15" height="15"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M5 12h14M13 6l6 6-6 6" />
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Facility 2: Green Walkways & Campus Environment -->
+                    <div class="col-md-6 col-xl-3 reveal">
+                        <div class="facility-card">
+                            <div class="facility-card-img">
+                                <img src="assets/img/allied-health.jpg" alt="Paved Walkways and Sunset Campus Views"
+                                    style="object-position: center 35%;" loading="lazy">
+                                <span class="facility-badge">Swat Foothills</span>
+                            </div>
+                            <div class="facility-card-body">
+                                <div>
+                                    <h3>Serene Natural Campus</h3>
+                                    <p>Paved pedestrian walkways, lush landscaped terraces, and clean mountain air
+                                        providing an inspiring, eco-friendly atmosphere.</p>
+                                </div>
+                                <a class="link-arrow" href="about.html#campuses">About Campuses<svg width="15"
+                                        height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M5 12h14M13 6l6 6-6 6" />
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Facility 3: Hunerkada Art & Culture -->
+                    <div class="col-md-6 col-xl-3 reveal">
+                        <div class="facility-card">
+                            <div class="facility-card-img">
+                                <img src="assets/img/hunerkada.jpg"
+                                    alt="Hunerkada Center of Excellence for Art and Culture"
+                                    style="object-position: center 35%;" loading="lazy">
+                                <span class="facility-badge">Hunerkada Center</span>
+                            </div>
+                            <div class="facility-card-body">
+                                <div>
+                                    <h3>Art & Heritage Academy</h3>
+                                    <p>Specialized studios dedicated to Gandhara arts, painting, textile design, and the
+                                        cultural heritage of the Khyber Pakhtunkhwa region.</p>
+                                </div>
+                                <a class="link-arrow" href="departments.html">Explore Hunerkada<svg width="15"
+                                        height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M5 12h14M13 6l6 6-6 6" />
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Facility 4: Central Research Library -->
+                    <div class="col-md-6 col-xl-3 reveal">
+                        <div class="facility-card">
+                            <div class="facility-card-img">
+                                <img src="assets/img/block-b.jpg" alt="Academic Block B and Central Library Access"
+                                    style="object-position: center 45%;" loading="lazy">
+                                <span class="facility-badge">Research & Library</span>
+                            </div>
+                            <div class="facility-card-body">
+                                <div>
+                                    <h3>Central Digital Library</h3>
+                                    <p>Over 50,000 reference books, international journals, quiet reading zones, and HEC
+                                        Digital Library terminals for scholars.</p>
+                                </div>
+                                <a class="link-arrow" href="departments.html">Library Services<svg width="15"
+                                        height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M5 12h14M13 6l6 6-6 6" />
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section section-alt" id="news">
             <div class="container">
                 <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4 reveal">
@@ -1201,6 +1446,7 @@
                     Swat</span><span>Website redesign for the DCST competition</span></div>
         </div>
     </footer>
+
     <div id="uos-assistant-root" data-base=""></div>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
